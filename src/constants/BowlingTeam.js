@@ -1,9 +1,9 @@
-export default class BattingTeam {
+export default class BowlingTeam {
   team = new Map([
     [
       1,
       {
-        name: "Rohit Sharma",
+        name: "Jason Roy",
         status: "Not Out",
         runs: 0,
         balls: 0,
@@ -15,7 +15,7 @@ export default class BattingTeam {
     [
       2,
       {
-        name: "Shikhar Dhawan",
+        name: "Jhon Bairstow",
         status: "Not Out",
         runs: 0,
         balls: 0,
@@ -27,7 +27,7 @@ export default class BattingTeam {
     [
       3,
       {
-        name: "Virat Kohli",
+        name: "Alex Hales",
         status: "",
         runs: 0,
         balls: 0,
@@ -39,7 +39,7 @@ export default class BattingTeam {
     [
       4,
       {
-        name: "Ambati Rayadu",
+        name: "Joe Root",
         status: "",
         runs: 0,
         balls: 0,
@@ -51,7 +51,7 @@ export default class BattingTeam {
     [
       5,
       {
-        name: "Kedar Jadhav",
+        name: "Eoin Morgan",
         status: "",
         runs: 0,
         balls: 0,
@@ -63,7 +63,7 @@ export default class BattingTeam {
     [
       6,
       {
-        name: "M S Dhoni",
+        name: "Moeen Ali",
         status: "",
         runs: 0,
         balls: 0,
@@ -75,7 +75,7 @@ export default class BattingTeam {
     [
       7,
       {
-        name: "Hardik Pandya",
+        name: "Jos Buttler",
         status: "",
         runs: 0,
         balls: 0,
@@ -87,7 +87,7 @@ export default class BattingTeam {
     [
       8,
       {
-        name: "Bhuvaneshwar Kumar",
+        name: "Chris Woakes",
         status: "",
         runs: 0,
         balls: 0,
@@ -99,7 +99,7 @@ export default class BattingTeam {
     [
       9,
       {
-        name: "Jasprit Bumrah",
+        name: "Adil Rashid",
         status: "",
         runs: 0,
         balls: 0,
@@ -111,7 +111,7 @@ export default class BattingTeam {
     [
       10,
       {
-        name: "Yuzvendra Chahal",
+        name: "David Willey",
         status: "",
         runs: 0,
         balls: 0,
@@ -123,7 +123,7 @@ export default class BattingTeam {
     [
       11,
       {
-        name: "Kuldeep Yadav",
+        name: "Stuart Broad",
         status: "",
         runs: 0,
         balls: 0,

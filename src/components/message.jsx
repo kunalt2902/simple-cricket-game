@@ -1,6 +1,6 @@
 import React from "react";
 const Message = props => {
-  return <span className="badge badge-info">{props.message}</span>;
+  return <span className={props.styles}>{props.message}</span>;
 };
 
 export default Message;

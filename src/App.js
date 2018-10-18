@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import "./App.css";
 import Over from "./components/over";
 import Score from "./components/score";
-import ScoreTitle from "./components/score-title";
-import Play from "./components/play";
-import Message from "./components/message";
 import Overs from "./components/overs";
-import team from "../src/constants/BattingTeam";
+import BattingTeam from "../src/constants/BattingTeam";
+import BowlingTeam from "../src/constants/BowlingTeam";
 import Players from "./components/players";
+import Ball from "./components/ball";
+import Button from "./components/button";
+import Target from "./components/target";
 import _ from "lodash";
 
 class App extends Component {
@@ -16,15 +17,53 @@ class App extends Component {
     reverseOvers: [],
     runs: 0,
     battingTeam: "India",
+    bowlingTeam: "England",
     noOfOvers: "0.0",
-    totalOvers: 10,
+    totalOvers: 1,
     totalRuns: 0,
     totalWickets: 0,
-    players: team,
+    target: -1,
+    players: new BattingTeam().team,
     striker: 1,
     nonStriker: 2
   };
+  handleNewMatch = () => {
+    let currentState = { ...this.state };
+    currentState.overs = [{ id: 0, balls: [] }];
+    currentState.reverseOvers = [];
+    currentState.runs = 0;
+    currentState.battingTeam = "India";
+    currentState.bowlingTeam = "England";
+    currentState.noOfOvers = "0.0";
+    currentState.totalRuns = 0;
+    currentState.totalWickets = 0;
+    currentState.target = -1;
 
+    currentState.players = new BattingTeam().team;
+
+    currentState.striker = 1;
+    currentState.nonStriker = 2;
+    this.setState(currentState);
+  };
+
+  handleNextInnings = () => {
+    let currentState = { ...this.state };
+    let target = currentState.totalRuns;
+    currentState.overs = [{ id: 0, balls: [] }];
+    currentState.reverseOvers = [];
+    currentState.runs = 0;
+    let team = currentState.battingTeam;
+    currentState.battingTeam = currentState.bowlingTeam;
+    currentState.bowlingTeam = team;
+    currentState.noOfOvers = "0.0";
+    currentState.totalRuns = 0;
+    currentState.totalWickets = 0;
+    currentState.target = target;
+    currentState.players = new BowlingTeam().team;
+    currentState.striker = 1;
+    currentState.nonStriker = 2;
+    this.setState(currentState);
+  };
   handlePlay = () => {
     let run = _.random(0, 6);
     let currentState = { ...this.state };
@@ -48,7 +87,7 @@ class App extends Component {
     return overs;
   };
 
-  handleNoOfOvers(overs) {
+  handleNoOfOvers = overs => {
     //return overs.length - 1 + "." + overs[overs.length - 1].balls.length === 6 ? ;
 
     let noOfovers =
@@ -56,9 +95,9 @@ class App extends Component {
     let noOfBalls =
       ((overs.length - 1) * 6 + overs[overs.length - 1].balls.length) % 6;
     return Math.floor(noOfovers) + (noOfBalls === 0 ? "" : "." + noOfBalls);
-  }
+  };
 
-  handlePlayers(currentState, run) {
+  handlePlayers = (currentState, run) => {
     //update runs
     currentState.players.get(currentState.striker).runs =
       currentState.players.get(currentState.striker).runs +
@@ -87,9 +126,9 @@ class App extends Component {
     }
 
     return currentState.players;
-  }
-  changePlayers(currentState, run) {
-    if (run === 1 || run == 3) {
+  };
+  changePlayers = (currentState, run) => {
+    if (run === 1 || run === 3) {
       let temp = currentState.striker;
       currentState.striker = currentState.nonStriker;
       currentState.nonStriker = temp;
@@ -102,7 +141,39 @@ class App extends Component {
       }
       return currentState;
     }
-  }
+  };
+
+  isMaxOvers = () => {
+    return (
+      (this.state.overs.length - 1) * 6 +
+        this.state.overs[this.state.overs.length - 1].balls.length >=
+      this.state.totalOvers * 6
+    );
+  };
+
+  isTargetAchieved = () => {
+    return this.state.target > 0 && this.state.totalRuns >= this.state.target;
+  };
+
+  isEndOfInnings = () => {
+    return (
+      this.isMaxOvers() ||
+      this.state.totalWickets >= 10 ||
+      this.isTargetAchieved()
+    );
+  };
+
+  resetTeams = team => {
+    team.forEach(val => {
+      val.name = "";
+      val.status = "";
+      val.runs = 0;
+      val.balls = 0;
+      val.fours = 0;
+      val.sixes = 0;
+      val.sr = 0;
+    });
+  };
 
   render() {
     return (
@@ -110,21 +181,61 @@ class App extends Component {
       <div className="container">
         {/* div for card */}
         <div className="card m-1 fullWidth">
-          {this.state.totalOvers.toString() !== this.state.noOfOvers &&
-            this.state.totalWickets < 10 && (
-              <Play
-                onPlay={this.handlePlay}
-                runs={this.state.runs}
-                noOfOvers={this.state.noOfOvers}
-              />
-            )}
+          <div className="row">
+            <div className="col-md-5" />
+            <div className="col-md-4">
+              {!this.isEndOfInnings() && (
+                <Button
+                  styles="btn btn-success"
+                  click={this.handlePlay}
+                  buttonText={"Play (Over " + this.state.noOfOvers + ")"}
+                />
+              )}
+              {this.isEndOfInnings() &&
+                this.state.target < 0 && (
+                  <Button
+                    styles="btn btn-success"
+                    buttonText={"Play Next Innings"}
+                    click={this.handleNextInnings}
+                  />
+                )}
+              {this.isEndOfInnings() &&
+                this.state.target > 0 && (
+                  <Button
+                    styles="btn btn-success"
+                    buttonText={"Play New Match"}
+                    click={this.handleNewMatch}
+                  />
+                )}
 
-          {(this.state.totalOvers.toString() === this.state.noOfOvers ||
-            this.state.totalWickets === 10) && (
-            <Message message={"End Of Innings"} />
+              {!this.isEndOfInnings() &&
+                this.state.noOfOvers !== "0.0" && (
+                  <Ball runs={this.state.runs} />
+                )}
+            </div>
+            <div className="col-md-3" />
+          </div>
+          <Score
+            totalRuns={this.state.totalRuns}
+            noOfOvers={this.state.noOfOvers}
+            totalOvers={this.state.totalOvers}
+            wickets={this.state.totalWickets}
+            battingTeam={this.state.battingTeam}
+          />
+          {(this.state.target >= 0 || this.isEndOfInnings()) && (
+            <Target
+              target={this.state.target}
+              totalRuns={this.state.totalRuns}
+              wickets={this.state.totalWickets}
+              maxOvers={this.isMaxOvers()}
+              overs={this.state.overs}
+              battingTeam={this.state.battingTeam}
+              bowlingTeam={this.state.bowlingTeam}
+              totalOvers={this.state.totalOvers}
+            />
           )}
           <div className="row">
-            <ScoreTitle />
+            <div className="col-md-4" />
             <div className="col-md-4" />
             <div className="col-md-4 mt-1">
               <span>
@@ -138,12 +249,6 @@ class App extends Component {
           </div>
           <Overs overs={this.state.overs} />
           <Players players={this.state.players} striker={this.state.striker} />
-          <Score
-            totalRuns={this.state.totalRuns}
-            noOfOvers={this.state.noOfOvers}
-            totalOvers={this.state.totalOvers}
-            wickets={this.state.totalWickets}
-          />
         </div>
       </div>
     );

@@ -5,7 +5,7 @@ const Overs = props => {
   return (
     <div className="row">
       <div className="col-md-1" />
-      <div className="row flex-row flex-nowrap col-md-10 overs-section">
+      <div className="row flex-row flex-nowrap col-md-10 scroll-section">
         {getReverseOvers(props.overs).map((over, index) => (
           <Over
             over={over}

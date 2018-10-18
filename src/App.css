@@ -24,10 +24,14 @@
 .fullWidth {
   width: 100;
 }
-.overs-section {
+.scroll-section {
   overflow-x: auto;
   padding-right: 0 !important;
   padding-left: 0 !important;
+}
+.yet-to-bat {
+  font-size: small;
+  font-weight: bold;
 }
 
 @keyframes App-logo-spin {
