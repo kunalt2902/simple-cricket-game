@@ -163,18 +163,6 @@ class App extends Component {
     );
   };
 
-  resetTeams = team => {
-    team.forEach(val => {
-      val.name = "";
-      val.status = "";
-      val.runs = 0;
-      val.balls = 0;
-      val.fours = 0;
-      val.sixes = 0;
-      val.sr = 0;
-    });
-  };
-
   render() {
     return (
       // div for container
