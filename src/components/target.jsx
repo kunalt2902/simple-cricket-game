@@ -20,15 +20,6 @@ const Target = props => {
 };
 
 let setMessage = props => {
-  // target={this.state.target}
-  // totalRuns={this.state.totalRuns}
-  // wickets={this.state.totalWickets}
-  // maxOvers={this.isMaxOvers()}
-  // overs={this.state.overs}
-  // battingTeam={this.state.battingTeam}
-  // bowlingTeam={this.state.bowlingTeam}
-  //totalOvers = {this.state.totalOvers}
-
   let ballsRemaining =
     props.totalOvers * 6 -
     ((props.overs.length - 1) * 6 +
@@ -41,7 +32,7 @@ let setMessage = props => {
     return (
       props.bowlingTeam +
       " needs " +
-      props.totalRuns +
+      (props.totalRuns + 1) +
       " runs in " +
       props.totalOvers * 6 +
       " balls to win"

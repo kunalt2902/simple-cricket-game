@@ -19,7 +19,7 @@ class App extends Component {
     battingTeam: "India",
     bowlingTeam: "England",
     noOfOvers: "0.0",
-    totalOvers: 1,
+    totalOvers: 10,
     totalRuns: 0,
     totalWickets: 0,
     target: -1,
